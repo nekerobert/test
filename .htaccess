@@ -1,0 +1,563 @@
+Options +FollowSymLinks
+#<IfModule mod_deflate.c>
+#  AddOutputFilterByType DEFLATE text/html
+#  AddOutputFilterByType DEFLATE text/css
+#  AddOutputFilterByType DEFLATE text/javascript
+#  AddOutputFilterByType DEFLATE text/xml
+#  AddOutputFilterByType DEFLATE text/plain
+#  AddOutputFilterByType DEFLATE image/x-icon
+#  AddOutputFilterByType DEFLATE image/svg+xml
+#  AddOutputFilterByType DEFLATE application/rss+xml
+#  AddOutputFilterByType DEFLATE application/javascript
+#  AddOutputFilterByType DEFLATE application/x-javascript
+#  AddOutputFilterByType DEFLATE application/xml
+#  AddOutputFilterByType DEFLATE application/xhtml+xml
+#  AddOutputFilterByType DEFLATE application/x-font
+#  AddOutputFilterByType DEFLATE application/x-font-truetype
+#  AddOutputFilterByType DEFLATE application/x-font-ttf
+#  AddOutputFilterByType DEFLATE application/x-font-otf
+#  AddOutputFilterByType DEFLATE application/x-font-opentype
+#  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+#  AddOutputFilterByType DEFLATE font/ttf
+#  AddOutputFilterByType DEFLATE font/otf
+#  AddOutputFilterByType DEFLATE font/opentype
+#
+## For Olders Browsers Which Can't Handle Compression
+#  BrowserMatch ^Mozilla/4 gzip-only-text/html
+#  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+#  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+#</IfModule>
+
+RewriteEngine On
+# Remove trailing slashes.
+# e.g. example.com/foo/ will redirect to example.com/foo
+
+RewriteRule   ^profile/(.+)$   profile.php?cat=$1   [L]
+RewriteRule   ^loadProfile/(.+)$   loadProfile.php?ID=$1   [L]
+RewriteRule   ^logIn/(.+)$   logIn.php?id=$1   [L]
+#RewriteRule ^vt-(.*)\.html$ viewtopic.php?t=$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=permanent,QSA]
+# Redirect to HTML if it exists.
+# e.g. example.com/foo will display the contents of example.com/foo.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.htm -f
+RewriteRule ^(.+)$ $1.htm [L,QSA]
+# Redirect to PHP if it exists.
+# e.g. example.com/foo will display the contents of example.com/foo.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L,QSA]
+
+
+RewriteCond %{HTTP_HOST} ^my.tedikom.online.com$
+RewriteRule (.*) https://my.tedikom.online/$1 [R=301,L] 
+
+#pages Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/manage /dashboard/manage_pages.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/([0-9-/]+)/edit$ /dashboard/manage_pages?page_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/([0-9-/]+)/delete$ /dashboard/manage_pages?page_id=$1&mode=delete [NC,L]
+
+
+#Slider Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/sliders/manage /dashboard/manage-home-slider.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/sliders/create /dashboard/add-home-slider.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/sliders/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-home-slider.php?slider_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/sliders/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-home-slider.php?slider_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/sliders/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage-home-slider.php?slider_id=$1&mode=delete [NC,L]
+
+#Home advert Routes
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/advert/([a-zA-Z0-9-/]+)/edit$ /dashboard/manage-advert.php?advert_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/advert$ /dashboard/manage-advert.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/resources/advert/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/manage-advert.php?advert_id=$1&mode=editFile [NC,L]
+
+
+#Home health Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/health-tips/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-health-tips.php?tip_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/health-tips/manage /dashboard/manage-health-tips.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/health-tips/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage-health-tips.php?tip_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/health-tips/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-health-tips.php?tip_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/health-tips/create /dashboard/add-health-tips.php [NC,L]
+
+#Home Footer Banner
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/footer-banner/([a-zA-Z0-9-/]+)/edit$ /dashboard/footer-banner.php?banner_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/footer-banner/([a-zA-Z0-9-/]+)/delete$ /dashboard/footer-banner.php?banner_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/footer-banner /dashboard/footer-banner.php [NC,L]
+
+
+#Key strength Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/key-strength/([a-zA-Z0-9-/]+)/edit$ /dashboard/strength-section.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/key-strength/([a-zA-Z0-9-/]+)/delete$ /dashboard/strength-section.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/key-strength /dashboard/strength-section.php [NC,L]
+
+#Home Key Strength Items
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/strength-items/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-strength-items.php?item_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/strength-items/manage /dashboard/manage-strength-items.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/strength-items/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage-strength-items.php?item_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/strength-items/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-strength-items.php?item_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/strength-items/create /dashboard/add-strength-items.php [NC,L]
+
+#Home Equipment Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/equipment-section/([a-zA-Z0-9-/]+)/edit$ /dashboard/equipment-section.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/equipment-section/([a-zA-Z0-9-/]+)/delete$ /dashboard/equipment-section.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/equipment-section /dashboard/equipment-section.php [NC,L]
+
+#Home Equipment Items
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/equipment-items/([a-zA-Z0-9-/]+)/edit$ /dashboard/equipment-items.php?item_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/equipment-items/([a-zA-Z0-9-/]+)/delete$ /dashboard/equipment-items.php?item_id=$1&mode=deleteFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/home/sections/equipment-items/manage$ /dashboard/equipment-items.php [NC,L]
+
+#About Page main section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/main-section/([a-zA-Z0-9-/]+)/edit$ /dashboard/manage_about.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/main-section/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage_about.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/main-section /dashboard/manage_about.php [NC,L]
+
+
+#About us featured Image
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/about-slider/([a-zA-Z0-9-/]+)/edit$ /dashboard/about-us-slider?item_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/about-slider/([a-zA-Z0-9-/]+)/delete$ /dashboard/about-us-slider?item_id=$1&mode=deleteFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/about-slider/manage$ /dashboard/about-us-slider.php [NC,L]
+
+#About-us Challenge Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/challenge/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-challenge.php?c_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/challenge/manage /dashboard/manage_challenge.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/challenge/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage_challenge.php?c_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/challenge/([a-zA-Z0-9-/]+)/edit$ /dashboard/add-challenge.php?c_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/challenge/create /dashboard/add-challenge.php [NC,L]
+
+
+#Core Value Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/core-value/([a-zA-Z0-9-/]+)/edit$ /dashboard/core_value_section.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/core-value/([a-zA-Z0-9-/]+)/delete$ /dashboard/core_value_section.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/core-value /dashboard/core_value_section.php [NC,L]
+
+
+#About Us core core_value_items
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/value-items/manage /dashboard/core_value_items.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/value-items/([0-9-/]+)/edit$ /dashboard/core_value_items.php?item_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/value-items/([0-9-/]+)/delete$ /dashboard/core_value_items.php?item_id=$1&mode=delete [NC,L]
+
+
+#About Us Testimonial Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonials/([a-zA-Z0-9-/]+)/edit$ /dashboard/testimonial_section.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonials/([a-zA-Z0-9-/]+)/delete$ /dashboard/testimonial_section.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonials /dashboard/testimonial_section.php [NC,L]
+
+
+#About Us Team Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/team/manage /dashboard/manage_team.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/team/create /dashboard/add_team.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/team/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add_team.php?team_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/team/([a-zA-Z0-9-/]+)/edit$ /dashboard/add_team.php?team_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/team/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage_team.php?team_id=$1&mode=delete [NC,L]
+
+
+
+#About Us Testimonials item Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonial-items/manage /dashboard/testimonial_item.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonial-items/create /dashboard/add_testimonial_item.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonial-items/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add_testimonial_item.php?t_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonial-items/([a-zA-Z0-9-/]+)/edit$ /dashboard/add_testimonial_item.php?t_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/testimonial-items/([a-zA-Z0-9-/]+)/delete$ /dashboard/testimonial_item.php?t_id=$1&mode=delete [NC,L]
+
+#About Us Footer Banner
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/footer-banner/([a-zA-Z0-9-/]+)/edit$ /dashboard/about_footer_banner.php?banner_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/footer-banner/([a-zA-Z0-9-/]+)/delete$ /dashboard/about_footer_banner.php?banner_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/about-us/sections/footer-banner /dashboard/about_footer_banner.php [NC,L]
+
+
+#Service Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/main-section/([a-zA-Z0-9-/]+)/edit$ /dashboard/service_section.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/main-section/([a-zA-Z0-9-/]+)/delete$ /dashboard/service_section.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/main-section /dashboard/service_section.php [NC,L]
+
+#Service Category Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-category/manage /dashboard/service_category.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-category/([0-9-/]+)/edit$ /dashboard/service_category.php?cat_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-category/([0-9-/]+)/delete$ /dashboard/service_category.php?cat_id=$1&mode=delete [NC,L]
+
+
+#Services items Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-items/file/([a-zA-Z0-9-/]+)/edit$ /dashboard/add_service_item.php?s_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-items/manage /dashboard/manage_servicesItem.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-items/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage_servicesItem.php?s_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-items/([a-zA-Z0-9-/]+)/edit$ /dashboard/add_service_item.php?s_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/service-items/create /dashboard/add_service_item.php [NC,L]
+
+#Gallery Category Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/gallery/sections/gallery-category/manage /dashboard/gallery_category.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/gallery/sections/gallery-category/([0-9-/]+)/edit$ /dashboard/gallery_category.php?cat_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/gallery/sections/gallery-category/([0-9-/]+)/delete$ /dashboard/gallery_category.php?cat_id=$1&mode=delete [NC,L]
+
+
+#Gallery Items
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/gallery/sections/gallery-items/([a-zA-Z0-9-/]+)/edit$ /dashboard/gallery_items.php?g_id=$1&mode=editFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/gallery/sections/gallery-items/([a-zA-Z0-9-/]+)/delete$ /dashboard/gallery_items.php?g_id=$1&mode=deleteFile [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/gallery/sections/gallery-items/manage$ /dashboard/gallery_items.php [NC,L]
+
+
+
+
+
+
+
+#faq Routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/faq/manage /dashboard/manage_faq.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/faq/([0-9-/]+)/edit$ /dashboard/manage_faq?faq_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/faq/([0-9-/]+)/delete$ /dashboard/manage_faq?faq_id=$1&mode=delete [NC,L]
+
+#Service Footer Banner
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/footer-banner/([a-zA-Z0-9-/]+)/edit$ /dashboard/service_footer_banner.php?banner_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/footer-banner/([a-zA-Z0-9-/]+)/delete$ /dashboard/service_footer_banner.php?banner_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/services/sections/footer-banner /dashboard/service_footer_banner.php [NC,L]
+
+
+#Contact Us Section
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/main-section/([a-zA-Z0-9-/]+)/edit$ /dashboard/contact-section.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/main-section/([a-zA-Z0-9-/]+)/delete$ /dashboard/contact-section.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/main-section /dashboard/contact-section.php [NC,L]
+
+
+
+#Contact Us Details
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/contact-details/([a-zA-Z0-9-/]+)/edit$ /dashboard/contact-details.php?section_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/contact-details/([a-zA-Z0-9-/]+)/delete$ /dashboard/contact-details.php?section_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/contact-details /dashboard/contact-details.php [NC,L]
+
+
+#User Contact
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/usercontact/([a-zA-Z0-9-/]+)/edit$ /dashboard/manage_usercontact.php?usercontact_id=$1&mode=edit [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/usercontact/([a-zA-Z0-9-/]+)/delete$ /dashboard/manage_usercontact.php?usercontact_id=$1&mode=delete [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dashboard/pages/contact-us/sections/usercontact/manage /dashboard/manage_usercontact.php [NC,L]
+
+
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^pages/([a-zA-Z0-9_-]+)/?$ edit_chapter.php?chapter_id=$1 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^chapters/([a-zA-Z0-9_-]+)/?$ edit_chapter.php?chapter_id=$1 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^assesments/([a-zA-Z0-9_-]+)/?$ edit_assesment.php?assesment_id=$1 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^chapters manage_chapter
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^modules/([a-zA-Z0-9_-]+)/?$ edit_module.php?module_id=$1 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^resources/category/create  create_category.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^resources/courses/overview  course_overview.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^resources/courses/open-course/create  new_open_course.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^resources/courses/study-group/create  new_study_group_course.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^resources/courses/open-course/([a-zA-Z0-9-/]+)/content/create$ new_open_content.php?course_id=$1&create=yes [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^resources/courses/open-course/([a-zA-Z0-9-/]+)/assesment/create$ course_assesment.php?course_id=$1&create=yes [NC,L]
+
+
+
+RewriteRule ^blog//preview$ /blog/post.php?s=$1&preview=all [L]
+
+#Bad Request
+ErrorDocument 400 /index
+#Unauthorized
+ErrorDocument 401 /index
+#Payment Required
+ErrorDocument 402 /index
+#Forbidden
+ErrorDocument 403 /index
+#Page not found
+ErrorDocument 404 /dashboard/404.php
+#Internal Server Error
+ErrorDocument 500 /index

@@ -1,0 +1,9 @@
+
+/*error handler color*/
+em.error{color: red;}
+.fa-times{color: red;}
+
+/*form feedback messages*/
+/*p{ text-align: left;}*/
+.error{color: red;}
+.success{color: green;}
